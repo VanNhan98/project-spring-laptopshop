@@ -24,7 +24,7 @@
                             <!-- form de java spring quan sat gia tri cua input -->
                             <!-- path de dinh danh phan biet tung input -->
                             <form:form method="post" action="/admin/user/create" modelAttribute="newUser">
-                                <div class="mb-3">
+                                <div class="mb-3 ">
                                     <label class="form-label">Email:</label>
                                     <form:input type="email" class="form-control" path="email" />
                                 </div>

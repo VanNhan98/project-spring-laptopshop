@@ -4,19 +4,23 @@ import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import vn.laptop.laptopshop.domain.User;
+import vn.laptop.laptopshop.repository.UserRepository;
 import vn.laptop.laptopshop.service.UserService;
 
 @Controller
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
+    private final UserRepository userRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @RequestMapping("/")
@@ -26,15 +30,25 @@ public class UserController {
         return "hello";
     }
 
-    @RequestMapping("/admin/user")
+    @RequestMapping(value = "/admin/user")
     public String getUserPage(Model model) {
         model.addAttribute("newUser", new User());
         return "admin/user/create";
     }
 
-    @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
-    public String createUserPage(Model model, @ModelAttribute("newUser") User nhan) {
-        System.out.println("run time" + nhan);
+    // truyền data từ view đến controller
+    // @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
+    // public String createUserPage(Model model, @ModelAttribute("newUser") User
+    // nhan) {
+    // System.out.println("run time" + nhan);
+    // this.userRepository.save(nhan);
+    // return "hello";
+    // }
+
+    @RequestMapping(value = "/admin/user/create")
+    public String createUserPage(Model model) {
+        System.out.println("run time");
+        // this.userRepository.save(nhan);
         return "hello";
     }
 
