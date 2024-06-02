@@ -70,7 +70,7 @@ restart :v) -->
 			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
 		</dependency>
 
-		<!-- set up spring jpa -->
+		<!-- set up spring jpa đã cài đặt sẵn hibernate để thực hiện CRUD-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>

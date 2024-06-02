@@ -23,6 +23,7 @@
                             <hr />
                             <!-- form de java spring quan sat gia tri cua input -->
                             <!-- path de dinh danh phan biet tung input -->
+                            <!-- modelAttribute là cách chúng ta convert dữ liệu từ View trả cho controller xử lý -->
                             <form:form method="post" action="/admin/user/create" modelAttribute="newUser">
                                 <div class="mb-3 ">
                                     <label class="form-label">Email:</label>

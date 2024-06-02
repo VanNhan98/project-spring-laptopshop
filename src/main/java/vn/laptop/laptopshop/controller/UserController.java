@@ -16,11 +16,9 @@ import vn.laptop.laptopshop.service.UserService;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @RequestMapping("/")
@@ -37,18 +35,10 @@ public class UserController {
     }
 
     // truyền data từ view đến controller
-    // @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
-    // public String createUserPage(Model model, @ModelAttribute("newUser") User
-    // nhan) {
-    // System.out.println("run time" + nhan);
-    // this.userRepository.save(nhan);
-    // return "hello";
-    // }
-
-    @RequestMapping(value = "/admin/user/create")
-    public String createUserPage(Model model) {
-        System.out.println("run time");
-        // this.userRepository.save(nhan);
+    @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
+    public String createUserPage(Model model, @ModelAttribute("newUser") User nhan) {
+        System.out.println("run time" + nhan);
+        this.userService.handleSaveUser(nhan);
         return "hello";
     }
 
