@@ -29,9 +29,11 @@ public class UserService {
     }
 
     public User handleSaveUser(User user) {
-        User nhan = this.userRepository.save(user);
-        System.out.println(nhan);
-        return nhan;
+        return this.userRepository.save(user);
 
+    }
+
+    public User getUserById(long id) {
+        return this.userRepository.findById(id);
     }
 }
