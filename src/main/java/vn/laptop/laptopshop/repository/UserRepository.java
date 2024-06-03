@@ -9,6 +9,8 @@ import vn.laptop.laptopshop.domain.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     User save(User nhan);
 
+    User deleteById(long id);
+
     List<User> findOneByEmail(String email);
 
     List<User> findAll();
