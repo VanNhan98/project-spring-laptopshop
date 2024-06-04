@@ -28,8 +28,6 @@ public class UserController {
     public String getHomePage(Model model) {
         List<User> arrUsers = this.userService.getAllUsersByEmail("maivanhan@gmail.com");
         System.out.println(arrUsers);
-        // model.addAttribute("nhan", "test");
-        // model.addAttribute("eric", "from controller with model");
         return "hello";
     }
 
@@ -96,7 +94,6 @@ public class UserController {
         return "redirect:/admin/user";
     }
 
-    // nhap tt user luu xun database va return qua gd table-user
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
     public String createUserPage(Model model, @ModelAttribute("newUser") User nhan) {
         this.userService.handleSaveUser(nhan);
