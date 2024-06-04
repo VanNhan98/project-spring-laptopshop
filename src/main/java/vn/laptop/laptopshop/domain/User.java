@@ -32,6 +32,7 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    // user onr - to many - order
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
