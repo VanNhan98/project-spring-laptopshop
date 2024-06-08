@@ -3,7 +3,6 @@ package vn.laptop.laptopshop.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
 import vn.laptop.laptopshop.domain.User;
 import vn.laptop.laptopshop.repository.UserRepository;
 
@@ -15,10 +14,6 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
-    // public String handleHello() {
-    // return "hello from service";
-    // }
 
     public List<User> getAllUsers() {
         return this.userRepository.findAll();
@@ -40,4 +35,5 @@ public class UserService {
     public void deleteUser(long id) {
         this.userRepository.deleteById(id);
     }
+
 }

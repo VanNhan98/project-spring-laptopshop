@@ -1,16 +1,26 @@
 package vn.laptop.laptopshop.controller.admin;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.servlet.ServletContext;
 import vn.laptop.laptopshop.domain.User;
+import vn.laptop.laptopshop.service.RoleService;
+import vn.laptop.laptopshop.service.UploadService;
 import vn.laptop.laptopshop.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -18,10 +28,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 
     private final UserService userService;
+    private final UploadService uploadService;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     public UserController(
-            UserService userService) {
+            UserService userService, UploadService uploadService, PasswordEncoder passwordEncode,
+            RoleService roleService) {
         this.userService = userService;
+        this.uploadService = uploadService;
+        this.passwordEncoder = passwordEncode;
+        this.roleService = roleService;
     }
 
     @RequestMapping("/")
@@ -94,8 +111,15 @@ public class UserController {
         return "redirect:/admin/user";
     }
 
-    @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
-    public String createUserPage(Model model, @ModelAttribute("newUser") User nhan) {
+    @PostMapping(value = "/admin/user/create")
+    public String createUserPage(Model model, @ModelAttribute("newUser") User nhan,
+            @RequestParam("loadFile") MultipartFile file) {
+
+        String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+        String hashPassWord = this.passwordEncoder.encode(nhan.getPassword());
+        nhan.setAvatar(avatar);
+        nhan.setPassword(hashPassWord);
+        nhan.setRole(this.roleService.getRoleByName(nhan.getRole().getName()));
         this.userService.handleSaveUser(nhan);
         return "redirect:/admin/user";
     }

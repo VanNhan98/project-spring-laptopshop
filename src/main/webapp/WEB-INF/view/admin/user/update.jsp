@@ -48,8 +48,7 @@
                                                 </div>
                                                 <div class="mb-3 ">
                                                     <label class="form-label">Email:</label>
-                                                    <form:input type="email" class="form-control" path="email"
-                                                        disabled="true" />
+                                                    <form:input type="email" class="form-control" path="email" />
                                                 </div>
 
                                                 <div class="mb-3">
