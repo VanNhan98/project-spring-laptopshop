@@ -20,7 +20,7 @@ public class Product {
     private String image;
     private String detailDesc;
     private String shortDesc;
-    private long quanity;
+    private long quantity;
     private long sold;
     private String factory;
     private String target;
@@ -76,12 +76,12 @@ public class Product {
         this.shortDesc = shortDesc;
     }
 
-    public long getQuanity() {
-        return quanity;
+    public long getQuantity() {
+        return quantity;
     }
 
-    public void setQuanity(long quanity) {
-        this.quanity = quanity;
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 
     public long getSold() {
@@ -108,11 +108,24 @@ public class Product {
         this.target = target;
     }
 
+    public List<OrderDetail> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<OrderDetail> order) {
+        this.order = order;
+    }
+
     @Override
     public String toString() {
         return "product [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", detailDesc="
-                + detailDesc + ", shortDesc=" + shortDesc + ", quanity=" + quanity + ", sold=" + sold + ", factory="
+                + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", sold=" + sold + ", factory="
                 + factory + ", target=" + target + "]";
+    }
+
+    public void setAvatar(String avatar) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setAvatar'");
     }
 
 }

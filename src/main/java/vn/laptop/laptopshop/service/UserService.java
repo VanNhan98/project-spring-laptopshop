@@ -3,6 +3,7 @@ package vn.laptop.laptopshop.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
 import vn.laptop.laptopshop.domain.User;
 import vn.laptop.laptopshop.repository.UserRepository;
 
