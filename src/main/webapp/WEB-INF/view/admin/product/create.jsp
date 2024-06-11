@@ -54,25 +54,59 @@
                                             <!-- modelAttribute là cách chúng ta convert dữ liệu từ View trả cho controller xử lý -->
                                             <form:form method="post" action="/admin/product/create"
                                                 modelAttribute="newProduct" class="row" enctype="multipart/form-data">
+                                                <c:set var="errorsName">
+                                                    <form:errors path="name" cssClass="invalid-feedback" />
+                                                </c:set>
+                                                <c:set var="errorsPrice">
+                                                    <form:errors path="price" cssClass="invalid-feedback" />
+                                                </c:set>
+                                                <c:set var="errorsDetailDesc">
+                                                    <form:errors path="detailDesc" cssClass="invalid-feedback" />
+                                                </c:set>
+                                                <c:set var="errorsShortDesc">
+                                                    <form:errors path="shortDesc" cssClass="invalid-feedback" />
+                                                </c:set>
+                                                <c:set var="errorsQuantity">
+                                                    <form:errors path="quantity" cssClass="invalid-feedback" />
+                                                </c:set>
                                                 <div class="mb-3 col-md-6 col-12">
                                                     <label class="form-label">Name:</label>
-                                                    <form:input type="text" class="form-control" path="name" />
+                                                    <form:input type="text"
+                                                        class="form-control ${not empty errorsName ? 'is-invalid' :'' }"
+                                                        path="name" />
+                                                    ${errorsName}
                                                 </div>
                                                 <div class="mb-3 col-md-6 col-12">
+
                                                     <label class="form-label">Price:</label>
-                                                    <form:input type="number" class="form-control" path="price" />
+                                                    <form:input type="number"
+                                                        class="form-control ${not empty errorsPrice ? 'is-invalid' :'' }"
+                                                        path="price" />
+                                                    ${errorsPrice}
                                                 </div>
                                                 <div class="mb-3  col-12">
+
                                                     <label class="form-label">Detail description:</label>
-                                                    <form:textarea type="text" class="form-control" path="detailDesc" />
+                                                    <form:textarea type="text"
+                                                        class="form-control ${not empty errorsDetailDesc ? 'is-invalid' :'' }"
+                                                        path="detailDesc" />
+                                                    ${errorsDetailDesc}
                                                 </div>
                                                 <div class="mb-3 col-md-6 col-12">
+
                                                     <label class="form-label">Short description:</label>
-                                                    <form:input type="text" class="form-control" path="shortDesc" />
+                                                    <form:input type="text"
+                                                        class="form-control ${not empty errorsShortDesc ? 'is-invalid' :'' }"
+                                                        path="shortDesc" />
+                                                    ${errorsShortDesc}
                                                 </div>
                                                 <div class="mb-3 col-md-6 col-12">
+
                                                     <label class="form-label">Quantity:</label>
-                                                    <form:input type="number" class="form-control" path="quantity" />
+                                                    <form:input type="number"
+                                                        class="form-control ${not empty errorsQuantity ? 'is-invalid' :'' }"
+                                                        path="quantity" />
+                                                    ${errorsQuantity}
                                                 </div>
                                                 <div class="mb-3 col-md-6 col-12">
                                                     <label class="form-label">Factory:</label>

@@ -6,13 +6,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "order_detail")
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long quanity;
+    private long quantity;
     private double price;
 
     // order_id
@@ -33,12 +35,12 @@ public class OrderDetail {
         this.id = id;
     }
 
-    public long getQuanity() {
-        return quanity;
+    public long getQuantity() {
+        return quantity;
     }
 
-    public void setQuanity(long quanity) {
-        this.quanity = quanity;
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 
     public double getPrice() {
@@ -49,9 +51,26 @@ public class OrderDetail {
         this.price = price;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     @Override
     public String toString() {
-        return "OrderDetail [id=" + id + ", quanity=" + quanity + ", price=" + price + "]";
+        return "OrderDetail [id=" + id + ", quantity=" + quantity + ", price=" + price + ", order=" + order
+                + ", product=" + product + "]";
     }
 
 }

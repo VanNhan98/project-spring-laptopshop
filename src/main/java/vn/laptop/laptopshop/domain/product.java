@@ -1,13 +1,14 @@
 package vn.laptop.laptopshop.domain;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "products")
@@ -15,18 +16,30 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotNull
+    @NotEmpty(message = "Tên sản phẩm không được để trống")
     private String name;
+
+    @NotNull
+    @DecimalMin(value = "0", inclusive = false, message = "price phải lớn hơn 0")
     private double price;
     private String image;
+
+    @NotNull
+    @NotEmpty(message = "Detail Desc không được để trống")
     private String detailDesc;
+
+    @NotNull
+    @NotEmpty(message = "Short Desc không được để trống")
     private String shortDesc;
+
+    @NotNull
+    @Min(value = 2, message = "Số lượng cần phải lớn hơn hoặc bằng 1")
     private long quantity;
     private long sold;
     private String factory;
     private String target;
-
-    @OneToMany(mappedBy = "product")
-    List<OrderDetail> order;
 
     public long getId() {
         return id;
@@ -108,24 +121,11 @@ public class Product {
         this.target = target;
     }
 
-    public List<OrderDetail> getOrder() {
-        return order;
-    }
-
-    public void setOrder(List<OrderDetail> order) {
-        this.order = order;
-    }
-
     @Override
     public String toString() {
-        return "product [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", detailDesc="
+        return "Product [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", detailDesc="
                 + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", sold=" + sold + ", factory="
-                + factory + ", target=" + target + "]";
-    }
-
-    public void setAvatar(String avatar) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setAvatar'");
+                + factory + ", target=" + target;
     }
 
 }

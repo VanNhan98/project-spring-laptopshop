@@ -53,7 +53,6 @@
                                             <tbody>
 
                                                 <c:forEach var="user" items="${users1}">
-
                                                     <tr>
                                                         <th>${user.id}</th>
                                                         <td>${user.email}</td>
