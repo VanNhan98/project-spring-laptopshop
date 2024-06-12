@@ -7,5 +7,7 @@ import vn.laptop.laptopshop.domain.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
+    // Product findById(long id);
 
+    // Product deleteById(long id);
 }

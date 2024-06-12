@@ -58,7 +58,7 @@
                                                                 class="btn btn-success">View</a>
                                                             <a href="/admin/product/update/${product.id}"
                                                                 class="btn btn-warning  mx-2">Update</a>
-                                                            <a href="/admin/product/delete/${user.id}"
+                                                            <a href="/admin/product/delete/${product.id}"
                                                                 class="btn btn-danger">Delete</a>
 
                                                         </td>

@@ -1,12 +1,14 @@
 package vn.laptop.laptopshop.controller.admin;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import vn.laptop.laptopshop.domain.Product;
 import vn.laptop.laptopshop.service.ProductService;
@@ -28,11 +30,6 @@ public class ProductController {
         this.productService = productService;
     }
 
-    // @GetMapping("/admin/product")
-    // public String getProduct() {
-    // return "admin/product/show";
-    // }
-
     // lay thong tin ben form va hien thi product
 
     @GetMapping("/admin/product")
@@ -40,6 +37,62 @@ public class ProductController {
         List<Product> prs = this.productService.fetchProducts();
         model.addAttribute("products", prs);
         return "admin/product/show";
+    }
+
+    // update
+    @GetMapping("/admin/product/update/{id}")
+    public String getUpdateProduct(Model model, @PathVariable long id) {
+        Optional<Product> currentPr = this.productService.fetchProductById(id);
+        model.addAttribute("newProduct", currentPr.get());
+        return "admin/product/update";
+    }
+
+    @PostMapping("/admin/product/update")
+    public String postUpdateProduct(Model model, @ModelAttribute("newProduct") @Valid Product pr,
+            BindingResult newProductBindingResult,
+            @RequestParam("loadFile") MultipartFile file) {
+        if (newProductBindingResult.hasErrors()) {
+            return "/admin/product/create";
+        }
+        Product currentPr = this.productService.fetchProductById(pr.getId()).get();
+        if (currentPr != null) {
+            if (!file.isEmpty()) {
+                String img = this.uploadService.handleSaveUploadFile((file), "product");
+                currentPr.setImage(img);
+            }
+            currentPr.setName(pr.getName());
+            currentPr.setPrice(pr.getPrice());
+            currentPr.setDetailDesc(pr.getDetailDesc());
+            currentPr.setShortDesc(pr.getShortDesc());
+            currentPr.setQuantity(pr.getQuantity());
+            currentPr.setFactory(pr.getFactory());
+            currentPr.setTarget(pr.getTarget());
+            this.productService.createProduct(currentPr);
+        }
+        return "redirect:/admin/product";
+    }
+
+    // delete
+    @GetMapping("/admin/product/delete/{id}")
+    public String getDeleteProductPage(Model model, @PathVariable long id) {
+        model.addAttribute("id", id);
+        model.addAttribute("newProduct", new Product());
+        return "admin/product/delete";
+    }
+
+    @PostMapping("/admin/product/delete")
+    public String postDeleteProduct(Model model, @ModelAttribute("newProduct") Product pr) {
+        this.productService.deleteProduct(pr.getId());
+        return "redirect:/admin/product";
+    }
+
+    // detail
+    @GetMapping("/admin/product/{id}")
+    public String getProductDetail(Model model, @PathVariable long id) {
+        Product pr = this.productService.fetchProductById(id).get();
+        model.addAttribute("product", pr);
+        model.addAttribute("id", id);
+        return "admin/product/detail";
     }
 
     // hien thi giao dien form
