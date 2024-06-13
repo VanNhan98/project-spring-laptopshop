@@ -14,6 +14,7 @@ import jakarta.validation.constraints.Email;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import vn.laptop.laptopshop.service.validator.StrongPassword;
 
 @Entity
 @Table(name = "users")
@@ -28,6 +29,7 @@ public class User {
 
     @NotNull
     @Size(min = 2, message = "Password toi thieu 2 ki tu")
+    @StrongPassword(message = "password phai co 8 ki tu")
     private String password;
 
     @NotNull
