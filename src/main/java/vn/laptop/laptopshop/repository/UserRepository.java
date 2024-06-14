@@ -26,4 +26,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // in ra 1 email
     // List<User> findFirtByEmail(String email);
 
+    User findByEmail(String email);
+
 }
