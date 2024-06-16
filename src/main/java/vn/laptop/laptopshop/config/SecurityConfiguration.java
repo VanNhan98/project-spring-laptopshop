@@ -14,7 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import jakarta.servlet.DispatcherType;
-import vn.laptop.laptopshop.service.CustomUserDetails;
+
+import vn.laptop.laptopshop.service.CustomUserSDetailsService;
 import vn.laptop.laptopshop.service.UserService;
 
 @Configuration
@@ -30,20 +31,8 @@ public class SecurityConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService(UserService userService) {
-        return new CustomUserDetails(userService);
+        return new CustomUserSDetailsService(userService);
     }
-
-    // @Bean
-    // public AuthenticationManager authenticationManager(HttpSecurity http,
-    // PasswordEncoder passwordEncoder,
-    // UserDetailsService userDetailsService) throws Exception {
-    // AuthenticationManagerBuilder authenticationManagerBuilder = http
-    // .getSharedObject(AuthenticationManagerBuilder.class);
-    // authenticationManagerBuilder
-    // .userDetailsService(userDetailsService)
-    // .passwordEncoder(passwordEncoder);
-    // return authenticationManagerBuilder.build();
-    // }
 
     @Bean
     public DaoAuthenticationProvider authProvider(

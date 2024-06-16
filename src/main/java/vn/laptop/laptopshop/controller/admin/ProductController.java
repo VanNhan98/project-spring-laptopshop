@@ -108,7 +108,7 @@ public class ProductController {
             @RequestParam("loadFile") MultipartFile file) {
 
         if (newProductBindingResult.hasErrors()) {
-            return "/admin/product/create";
+            return "admin/product/create";
         }
         String image = this.uploadService.handleSaveUploadFile(file, "product");
         pr.setImage(image);

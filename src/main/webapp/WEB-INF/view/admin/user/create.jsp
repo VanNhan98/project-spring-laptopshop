@@ -54,10 +54,16 @@
                                             <!-- modelAttribute là cách chúng ta convert dữ liệu từ View trả cho controller xử lý -->
                                             <form:form method="post" action="/admin/user/create"
                                                 modelAttribute="newUser" class="row" enctype="multipart/form-data">
+                                                <c:set var="errorsEmail">
+                                                    <form:errors path="email" cssClass="invalid-feedback" />
+                                                </c:set>
+                                                <c:set var="errorsPassword">
+                                                    <form:errors path="password" cssClass="invalid-feedback" />
+                                                </c:set>
+                                                <c:set var="errorsFullName">
+                                                    <form:errors path="fullName" cssClass="invalid-feedback" />
+                                                </c:set>
                                                 <div class="mb-3 col-md-6 col-12">
-                                                    <c:set var="errorsEmail">
-                                                        <form:errors path="email" cssClass="invalid-feedback" />
-                                                    </c:set>
                                                     <label class="form-label">Email:</label>
                                                     <form:input type="email"
                                                         class="form-control ${not empty errorsEmail ? 'is-invalid':''} "
@@ -65,9 +71,7 @@
                                                     ${errorsEmail}
                                                 </div>
                                                 <div class="mb-3 col-md-6 col-12">
-                                                    <c:set var="errorsPassword">
-                                                        <form:errors path="password" cssClass="invalid-feedback" />
-                                                    </c:set>
+
                                                     <label class="form-label">Password:</label>
                                                     <form:input type="password"
                                                         class="form-control ${not empty errorsPassword ? 'is-invalid':''} "
@@ -80,9 +84,7 @@
                                                     <form:input type="text" class="form-control" path="phoneNumber" />
                                                 </div>
                                                 <div class="mb-3 col-md-6 col-12">
-                                                    <c:set var="errorsFullName">
-                                                        <form:errors path="fullName" cssClass="invalid-feedback" />
-                                                    </c:set>
+
                                                     <label class="form-label">Full Name:</label>
                                                     <form:input type="text"
                                                         class="form-control ${not empty errorsFullName ? 'is-invalid':''}"
@@ -112,7 +114,6 @@
                                                 </div>
                                                 <div class="mb-5 col-12">
                                                     <button type="submit" class="btn btn-primary">Create</button>
-
                                                 </div>
                                             </form:form>
                                         </div>

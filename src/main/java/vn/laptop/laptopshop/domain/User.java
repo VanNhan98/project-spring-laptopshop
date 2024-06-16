@@ -29,7 +29,6 @@ public class User {
 
     @NotNull
     @Size(min = 2, message = "Password toi thieu 2 ki tu")
-    @StrongPassword(message = "password phai co 8 ki tu")
     private String password;
 
     @NotNull
