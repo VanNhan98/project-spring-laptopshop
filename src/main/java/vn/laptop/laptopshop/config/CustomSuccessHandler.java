@@ -5,8 +5,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
@@ -16,8 +19,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import vn.laptop.laptopshop.domain.User;
+import vn.laptop.laptopshop.service.UserService;
 
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
+    @Autowired
+    private UserService userService;
 
     protected String determineTargetUrl(final Authentication authentication) {
 
@@ -36,12 +43,27 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         throw new IllegalStateException();
     }
 
-    protected void clearAuthenticationAttributes(HttpServletRequest request) {
+    // Xóa các thuộc tính xác thực khỏi request.
+    // Điều này đảm bảo rằng các thông tin xác thực không được lưu lại trong session
+    // của người dùng.
+
+    protected void clearAuthenticationAttributes(HttpServletRequest request, Authentication authentication) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return;
         }
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+
+        // get email
+        String email = authentication.getName();
+        // get user
+        User user = this.userService.getUserByEmail(email);
+        if (user != null) {
+            session.setAttribute("fullName", user.getFullName());
+            session.setAttribute("avatar", user.getAvatar());
+
+        }
+
     }
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -52,13 +74,15 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
         String targetUrl = determineTargetUrl(authentication);
 
+        // handle exception
         if (response.isCommitted()) {
 
             return;
         }
 
+        // chuyển hướng người dùng đến targetUrl đã xác định.
         redirectStrategy.sendRedirect(request, response, targetUrl);
-        clearAuthenticationAttributes(request);
+        clearAuthenticationAttributes(request, authentication);
 
     }
 

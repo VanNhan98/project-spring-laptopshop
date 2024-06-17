@@ -54,6 +54,12 @@
                                                     </div>
 
                                                     <div class="mt-4 mb-0">
+                                                        <input type="checkbox" name="remember-me" checked>
+                                                        Keep me logged in
+
+                                                    </div>
+
+                                                    <div class="mt-4 mb-0">
                                                         <div class="d-grid">
                                                             <button class="btn btn-primary btn-block">
                                                                 Login
