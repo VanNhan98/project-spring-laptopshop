@@ -55,4 +55,12 @@ public class Cart {
         this.user = user;
     }
 
+    public List<CartDetail> getCartDetail() {
+        return CartDetail;
+    }
+
+    public void setCartDetail(List<CartDetail> cartDetail) {
+        CartDetail = cartDetail;
+    }
+
 }
