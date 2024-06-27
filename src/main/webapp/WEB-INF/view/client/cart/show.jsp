@@ -6,7 +6,7 @@
 
             <head>
                 <meta charset="utf-8">
-                <title>Fruitables - Vegetable Website Template</title>
+                <title> Giỏ hàng - Laptopshop</title>
                 <meta content="width=device-width, initial-scale=1.0" name="viewport">
                 <meta content="" name="keywords">
                 <meta content="" name="description">
@@ -44,37 +44,41 @@
                 </div>
                 <!-- Spinner End -->
 
-
-                <!-- Navbar start -->
                 <jsp:include page="../layout/header.jsp" />
-                <!-- Navbar End -->
-
-
 
                 <!-- Cart Page Start -->
                 <div class="container-fluid py-5">
                     <div class="container py-5">
-                        <div>
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item active"><a href="/">Home</a></li>
-                                <li class="breadcrumb-item active">Chi tiết sản phẩm</li>
-
-                            </ol>
+                        <div class="mb-3">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Chi Tiết Giỏ Hàng</li>
+                                </ol>
+                            </nav>
                         </div>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Products</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Total</th>
-                                        <th scope="col">Handle</th>
+                                        <th scope="col">Sản phẩm</th>
+                                        <th scope="col">Tên</th>
+                                        <th scope="col">Giá cả</th>
+                                        <th scope="col">Số lượng</th>
+                                        <th scope="col">Thành tiền</th>
+                                        <th scope="col">Xử lý</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <c:if test="${ empty cartDetails}">
+                                        <tr>
+                                            <td colspan="6">
+                                                Không có sản phẩm trong giỏ hàng
+                                            </td>
+                                        </tr>
+                                    </c:if>
                                     <c:forEach var="cartDetail" items="${cartDetails}">
+
                                         <tr>
                                             <th scope="row">
                                                 <div class="d-flex align-items-center">
@@ -92,8 +96,7 @@
                                             </td>
                                             <td>
                                                 <p class="mb-0 mt-4">
-                                                    <fmt:formatNumber type="number" value="${cartDetail.price}" />đ
-                                                    <!-- $(cartDetail.pr    ice) -->
+                                                    <fmt:formatNumber type="number" value="${cartDetail.price}" /> đ
                                                 </p>
                                             </td>
                                             <td>
@@ -106,7 +109,9 @@
                                                     </div>
                                                     <input type="text"
                                                         class="form-control form-control-sm text-center border-0"
-                                                        value="${cartDetail.product.quantity}">
+                                                        value="${cartDetail.quantity}"
+                                                        data-cart-detail-id="${cartDetail.id}"
+                                                        data-cart-detail-price="${cartDetail.price}">
                                                     <div class="input-group-btn">
                                                         <button
                                                             class="btn btn-sm btn-plus rounded-circle bg-light border">
@@ -116,62 +121,65 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="mb-0 mt-4">
+                                                <p class="mb-0 mt-4" data-cart-detail-id="${cartDetail.id}">
                                                     <fmt:formatNumber type="number"
-                                                        value="${cartDetail.price * cartDetail.quantity}" />đ
+                                                        value="${cartDetail.price * cartDetail.quantity}" /> đ
                                                 </p>
                                             </td>
                                             <td>
-                                                <button class="btn btn-md rounded-circle bg-light border mt-4">
-                                                    <i class="fa fa-times text-danger"></i>
-                                                </button>
+                                                <form method="post" action="/delete-cart-product/${cartDetail.id}">
+                                                    <input type="hidden" name="${_csrf.parameterName}"
+                                                        value="${_csrf.token}" />
+                                                    <button class="btn btn-md rounded-circle bg-light border mt-4">
+                                                        <i class="fa fa-times text-danger"></i>
+                                                    </button>
+                                                </form>
                                             </td>
-
                                         </tr>
                                     </c:forEach>
+
                                 </tbody>
                             </table>
                         </div>
-
-                        <div class="mt-5 g-4 justify-content-start">
-                            <div class="col-12 col-md-8">
-                                <div class="bg-light rounded">
-                                    <div class="p-4">
-                                        <h1 class="display-6 mb-4">Thông tin <span class="fw-normal">Đơn Hàng</span>
-                                        </h1>
-                                        <div class="d-flex justify-content-between mb-4">
-                                            <h5 class="mb-0 me-4">Tạm tính:</h5>
-                                            <p class="mb-0">
-                                                <fmt:formatNumber type="number" value="${totalPrice}" />đ
-                                            </p>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0 me-4">Phí vận chuyển</h5>
-                                            <div class="">
-                                                <p class="mb-0">0 đ</p>
+                        <c:if test="${not empty cartDetails}">
+                            <div class="mt-5 row g-4 justify-content-start">
+                                <div class="col-12 col-md-8">
+                                    <div class="bg-light rounded">
+                                        <div class="p-4">
+                                            <h1 class="display-6 mb-4">Thông Tin <span class="fw-normal">Đơn Hàng</span>
+                                            </h1>
+                                            <div class="d-flex justify-content-between mb-4">
+                                                <h5 class="mb-0 me-4">Tạm tính:</h5>
+                                                <p class="mb-0" data-cart-total-price="${totalPrice}">
+                                                    <fmt:formatNumber type="number" value="${totalPrice}" /> đ
+                                                </p>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <h5 class="mb-0 me-4">Phí vận chuyển</h5>
+                                                <div class="">
+                                                    <p class="mb-0">0 đ</p>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
+                                            <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
+                                            <p class="mb-0 pe-4" data-cart-total-price="${totalPrice}">
+                                                <fmt:formatNumber type="number" value="${totalPrice}" /> đ
+                                            </p>
+                                        </div>
+                                        <button
+                                            class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
+                                            type="button">Xác nhận đặt hàng</button>
                                     </div>
-                                    <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
-                                        <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
-                                        <p class="mb-0 pe-4">
-                                            <fmt:formatNumber type="number" value="${totalPrice}" />đ
-                                        </p>
-                                    </div>
-                                    <button
-                                        class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
-                                        type="button">XÁC NHẬN ĐẶT HÀNG</button>
                                 </div>
                             </div>
-                        </div>
+                        </c:if>
                     </div>
                 </div>
                 <!-- Cart Page End -->
 
 
                 <jsp:include page="../layout/footer.jsp" />
-
-
 
 
                 <!-- Back to Top -->
@@ -182,10 +190,10 @@
                 <!-- JavaScript Libraries -->
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-                <script src="client/lib/easing/easing.min.js"></script>
-                <script src="client/lib/waypoints/waypoints.min.js"></script>
-                <script src="client/lib/lightbox/js/lightbox.min.js"></script>
-                <script src="client/lib/owlcarousel/owl.carousel.min.js"></script>
+                <script src="/client/lib/easing/easing.min.js"></script>
+                <script src="/client/lib/waypoints/waypoints.min.js"></script>
+                <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
+                <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
 
                 <!-- Template Javascript -->
                 <script src="/client/js/main.js"></script>

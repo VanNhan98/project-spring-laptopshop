@@ -46,22 +46,33 @@ public class ItemController {
     @GetMapping("/cart")
     public String getCartPage(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        User currentUser = new User();
+        User currentUser = new User();// null
+
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
-        Cart cart = this.productService.fetchBuyUser(currentUser);
-        List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetail();
+        Cart cart = this.productService.fetchByUser(currentUser);
+
+        List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
 
         double totalPrice = 0;
         for (CartDetail cd : cartDetails) {
-            totalPrice = cd.getPrice() * cd.getQuantity();
+            totalPrice += cd.getPrice() * cd.getQuantity();
         }
+
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
 
         return "client/cart/show";
+    }
 
+    @PostMapping("/delete-cart-product/{id}")
+    public String deleteCartDetail(@PathVariable long id, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        long cartDetailId = id;
+        this.productService.deleteCartDetail(cartDetailId, session);
+
+        return "redirect:/cart";
     }
 
 }
