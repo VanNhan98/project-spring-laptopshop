@@ -17,6 +17,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private double totalPrice;
 
     private String receiverName;
@@ -28,12 +29,10 @@ public class Order {
     private String status;
 
     // user id
-    // order many - to one - user
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    // order one - to many - order_detail
     @OneToMany(mappedBy = "order")
     List<OrderDetail> orderDetails;
 
@@ -103,7 +102,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "order [id=" + id + ", totalPrice=" + totalPrice + "]";
+        return "Order [id=" + id + ", totalPrice=" + totalPrice + "]";
     }
 
 }

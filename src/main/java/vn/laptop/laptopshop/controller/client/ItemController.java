@@ -21,6 +21,7 @@ import vn.laptop.laptopshop.service.ProductService;
 
 @Controller
 public class ItemController {
+
     private final ProductService productService;
 
     public ItemController(ProductService productService) {
@@ -41,15 +42,16 @@ public class ItemController {
 
         long productId = id;
         String email = (String) session.getAttribute("email");
+
         this.productService.handleAddProductToCart(email, productId, session);
+
         return "redirect:/";
     }
 
     @GetMapping("/cart")
     public String getCartPage(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
         User currentUser = new User();// null
-
+        HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
@@ -74,8 +76,7 @@ public class ItemController {
     public String deleteCartDetail(@PathVariable long id, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         long cartDetailId = id;
-        this.productService.deleteCartDetail(cartDetailId, session);
-
+        this.productService.handleRemoveCartDetail(cartDetailId, session);
         return "redirect:/cart";
     }
 
@@ -120,11 +121,11 @@ public class ItemController {
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
         this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone);
-        return "redirect:/thank";
+        return "redirect:/thanks";
     }
 
-    @GetMapping("/thank")
+    @GetMapping("/thanks")
     public String getThankYouPage(Model model) {
-        return "client/cart/thank";
+        return "client/cart/thanks";
     }
 }

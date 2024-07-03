@@ -23,13 +23,13 @@ public class Cart {
     private int sum;
 
     // user_id
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "user_id")
     private User user;
 
-    // cart
+    // cart_detail_id
     @OneToMany(mappedBy = "cart")
-    private List<CartDetail> CartDetails;
+    List<CartDetail> cartDetails;
 
     public long getId() {
         return id;
@@ -56,11 +56,11 @@ public class Cart {
     }
 
     public List<CartDetail> getCartDetails() {
-        return CartDetails;
+        return cartDetails;
     }
 
-    public void setCartDetail(List<CartDetail> cartDetails) {
-        CartDetails = cartDetails;
+    public void setCartDetails(List<CartDetail> cartDetails) {
+        this.cartDetails = cartDetails;
     }
 
 }
