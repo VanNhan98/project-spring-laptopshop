@@ -159,7 +159,7 @@ public class ProductService {
 
                 double sum = 0;
                 for (CartDetail cd : cartDetails) {
-                    sum += cd.getPrice();
+                    sum += (cd.getPrice() * cd.getQuantity());
                 }
                 order.setTotalPrice(sum);
                 order = this.orderRepository.save(order);
