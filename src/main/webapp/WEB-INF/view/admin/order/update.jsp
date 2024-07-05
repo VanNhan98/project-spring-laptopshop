@@ -42,6 +42,10 @@
 
                                                 <form:form method="post" action="/admin/order/update" class="row"
                                                     modelAttribute="newOrder">
+                                                    <div class="mb-3" style="display: none;">
+                                                        <label class="form-label">Id:</label>
+                                                        <form:input type="text" class="form-control" path="id" />
+                                                    </div>
                                                     <div class="mb-3">
                                                         <label>Order id = ${newOrder.id} </label>
                                                         &nbsp; &nbsp; &nbsp; &nbsp;

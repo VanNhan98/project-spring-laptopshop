@@ -46,7 +46,7 @@ public class OrderController {
     }
 
     @PostMapping("/admin/order/delete")
-    public String postDeleOrder(@ModelAttribute("newOrders") Order order) {
+    public String postDeleteOrder(@ModelAttribute("newOrders") Order order) {
         this.orderService.deleteOrderById(order.getId());
         return "redirect:/admin/order";
     }
@@ -56,6 +56,12 @@ public class OrderController {
         Optional<Order> currentOrder = this.orderService.fetchOrderById(id);
         model.addAttribute("newOrder", currentOrder.get());
         return "admin/order/update";
+    }
+
+    @PostMapping("/admin/order/update")
+    public String postUpdateOrder(@ModelAttribute("newOrder") Order order) {
+        this.orderService.updateOrder(order);
+        return "redirect:/admin/order";
     }
 
 }

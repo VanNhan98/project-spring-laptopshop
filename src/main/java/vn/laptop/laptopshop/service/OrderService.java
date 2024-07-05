@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import vn.laptop.laptopshop.domain.Order;
 import vn.laptop.laptopshop.domain.OrderDetail;
+import vn.laptop.laptopshop.domain.User;
 import vn.laptop.laptopshop.repository.OrderDetailRepository;
 import vn.laptop.laptopshop.repository.OrderRepository;
 
@@ -41,6 +42,19 @@ public class OrderService {
         }
         this.orderRepository.deleteById(id);
 
+    }
+
+    public List<Order> fetchOrderByUser(User user) {
+        return this.orderRepository.findByUser(user);
+    }
+
+    public void updateOrder(Order order) {
+        Optional<Order> orderOptional = this.fetchOrderById(order.getId());
+        if (orderOptional.isPresent()) {
+            Order currentOrder = orderOptional.get();
+            currentOrder.setStatus(order.getStatus());
+            this.orderRepository.save(currentOrder);
+        }
     }
 
 }
