@@ -18,6 +18,9 @@ import vn.laptop.laptopshop.repository.OrderDetailRepository;
 import vn.laptop.laptopshop.repository.OrderRepository;
 import vn.laptop.laptopshop.repository.ProductRepository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
@@ -42,8 +45,8 @@ public class ProductService {
         return this.productRepository.save(product);
     }
 
-    public List<Product> fetchProducts() {
-        return this.productRepository.findAll();
+    public Page<Product> fetchProducts(Pageable page) {
+        return this.productRepository.findAll(page);
     }
 
     public Optional<Product> fetchProductById(long id) {

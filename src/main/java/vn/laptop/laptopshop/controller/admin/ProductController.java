@@ -3,6 +3,8 @@ package vn.laptop.laptopshop.controller.admin;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,9 +35,13 @@ public class ProductController {
     // lay thong tin ben form va hien thi product
 
     @GetMapping("/admin/product")
-    public String getProduct(Model model) {
-        List<Product> prs = this.productService.fetchProducts();
-        model.addAttribute("products", prs);
+    public String getProduct(Model model, @RequestParam("page") int page) {
+        PageRequest pageable = PageRequest.of(page - 1, 2);
+        Page<Product> prs = this.productService.fetchProducts(pageable);
+        List<Product> listProduct = prs.getContent();
+        model.addAttribute("products", listProduct);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", prs.getTotalPages());
         return "admin/product/show";
     }
 
