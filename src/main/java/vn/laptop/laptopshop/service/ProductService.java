@@ -13,6 +13,7 @@ import vn.laptop.laptopshop.domain.OrderDetail;
 import vn.laptop.laptopshop.domain.Product;
 import vn.laptop.laptopshop.domain.Product_;
 import vn.laptop.laptopshop.domain.User;
+import vn.laptop.laptopshop.domain.dto.ProductCriteriaDTO;
 import vn.laptop.laptopshop.repository.CartDetailRepository;
 import vn.laptop.laptopshop.repository.CartRepository;
 import vn.laptop.laptopshop.repository.OrderDetailRepository;
@@ -55,8 +56,21 @@ public class ProductService {
         return this.productRepository.findAll(page);
     }
 
-    public Page<Product> fetchProductsWithSpec(Pageable page, String name) {
-        return this.productRepository.findAll(ProductSpecs.nameLike(name), page);
+    public Page<Product> fetchProductsWithSpec(Pageable page, ProductCriteriaDTO productCriteriaDTO) {
+        if (productCriteriaDTO.getTarget() == null && productCriteriaDTO.getFactory() == null) {
+            return this.productRepository.findAll(page);
+        }
+        Specification<Product> combineSpec = Specification.where(null);
+        if (productCriteriaDTO.getTarget() != null && productCriteriaDTO.getTarget().isPresent()) {
+            Specification<Product> currentSpecs = ProductSpecs.matchListTarget(productCriteriaDTO.getTarget().get());
+            combineSpec = combineSpec.and(currentSpecs);
+        }
+
+        if (productCriteriaDTO.getFactory() != null && productCriteriaDTO.getFactory().isPresent()) {
+            Specification<Product> currentSpecs = ProductSpecs.matchListFactory(productCriteriaDTO.getFactory().get());
+            combineSpec = combineSpec.and(currentSpecs);
+        }
+        return this.productRepository.findAll(combineSpec, page);
     }
 
     // public Page<Product> fetchProductsWithSpec(Pageable page, double min) {
