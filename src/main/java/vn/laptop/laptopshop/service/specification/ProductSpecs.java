@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import jakarta.validation.constraints.Min;
 import vn.laptop.laptopshop.domain.Product;
 import vn.laptop.laptopshop.domain.Product_;
 
@@ -40,7 +39,8 @@ public class ProductSpecs {
     }
 
     public static Specification<Product> matchMultiplePrice(double min, double max) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get(Product_.PRICE), min, max);
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(
+                root.get(Product_.PRICE), min, max);
     }
 
 }
